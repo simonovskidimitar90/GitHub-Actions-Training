@@ -1,0 +1,27 @@
+name: Run Python Script
+
+# This creates the "Run workflow" button in GitHub
+on: 
+  workflow_dispatch: 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checks out your repository code so the runner can see it
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Installs Python on the runner
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x' # Grabs the latest Python 3 version
+
+      # 3. Runs your specific Python script
+      - name: Execute Python script
+        run: python your_script.py
+      
+      - name: Done
+        run: echo "Python Script Run Completed!"
