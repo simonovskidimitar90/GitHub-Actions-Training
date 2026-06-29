@@ -23,6 +23,7 @@ def append_status_run():
     df.to_csv(csv_filename, index=False)
     
     print(f"Success! Appended Run status at {current_datetime}")
+    print(df)
 
 # Run the function
 if __name__ == "__main__":
