@@ -1,0 +1,44 @@
+name: Run Python Script
+
+on: 
+  workflow_dispatch: 
+
+# 1. Give the workflow permission to push changes
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas
+
+      - name: Execute Python script
+        run: python test_pandas.py
+
+      # 2. Tell Git who is making the change, then commit and push
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Stage the specific file that was changed
+          git add data/test_data.csv
+          
+          # Commit the change. The '|| echo' prevents the workflow from failing if the file didn't change
+          git commit -m "Automated update: Append run status to CSV" || echo "No changes to commit"
+          
+          # Push the changes back to the main branch
+          git push
